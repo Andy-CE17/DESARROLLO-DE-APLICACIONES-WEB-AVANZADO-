@@ -1,0 +1,42 @@
+{
+  "tickets": [
+    {
+      "id": "50303347-6216-4fa4-bea5-27e4da3136e1",
+      "title": "Prueba de notificación por correo",
+      "description": "Verificación del servicio Nodemailer",
+      "status": "nuevo",
+      "priority": "high",
+      "assignedUser": null
+    }
+  ],
+  "notifications": [
+    {
+      "id": "04a58792-ce55-417b-8831-7833d30f015e",
+      "type": "email",
+      "message": "Nuevo ticket creado: Problema 1",
+      "status": "pending",
+      "ticketId": "d6883913-1f94-431a-a31a-4f11c0719c94"
+    },
+    {
+      "id": "56431b06-6ed5-457d-8cbf-0d9afd39f6d2",
+      "type": "email",
+      "message": "El ticket d6883913-1f94-431a-a31a-4f11c0719c94 fue asignado a Andy",
+      "status": "pending",
+      "ticketId": "d6883913-1f94-431a-a31a-4f11c0719c94"
+    },
+    {
+      "id": "e9a8b248-98ba-47e5-8e90-817c9359c535",
+      "type": "push",
+      "message": "El ticket d6883913-1f94-431a-a31a-4f11c0719c94 cambió a asignado",
+      "status": "pending",
+      "ticketId": "d6883913-1f94-431a-a31a-4f11c0719c94"
+    },
+    {
+      "id": "9bf4497f-5135-436a-81b0-c9e2a7619bad",
+      "type": "email",
+      "message": "Nuevo ticket creado: Prueba de notificación por correo",
+      "status": "pending",
+      "ticketId": "50303347-6216-4fa4-bea5-27e4da3136e1"
+    }
+  ]
+}

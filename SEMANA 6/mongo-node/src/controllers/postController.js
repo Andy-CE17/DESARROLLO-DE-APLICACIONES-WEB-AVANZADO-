@@ -10,10 +10,13 @@ const withUploadedImage = (body, file) => ({
 class PostController {
   async getAll(req, res) {
     try {
-      const posts = await postService.getPosts();
+      const posts = req.query.userId
+        ? await postService.getPostsByUser(req.query.userId)
+        : await postService.getPosts();
 
       res.render("posts", {
         posts,
+        filteredByUser: Boolean(req.query.userId),
         success: req.query.success || "",
         error: req.query.error || "",
       });

@@ -13,10 +13,10 @@
   <header>
     <nav class="site-nav" aria-label="Navegación principal"><div class="nav-wrapper container-wide">
       <a href="/" class="brand-mark"><span class="brand-symbol">A</span><span>ÁUREA</span></a>
-      <ul class="right hide-on-med-and-down nav-links"><li><a href="/">Inicio</a></li><li><a class="active" href="/posts">Publicaciones</a></li><li><a class="nav-create" href="/posts/new">Crear publicación</a></li></ul>
+      <ul class="right hide-on-med-and-down nav-links"><li><a href="/">Inicio</a></li><li><a class="active" href="/posts">Publicaciones</a></li><li><a href="/users">Usuarios</a></li><li><a class="nav-create" href="/posts/new">Crear publicación</a></li></ul>
       <a href="#" data-target="mobile-nav" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
     </div></nav>
-    <ul class="sidenav dark-sidenav" id="mobile-nav"><li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a href="/posts/new">Crear publicación</a></li></ul>
+    <ul class="sidenav dark-sidenav" id="mobile-nav"><li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a href="/users">Usuarios</a></li><li><a href="/posts/new">Crear publicación</a></li></ul>
   </header>
 
   <main class="page-shell">
@@ -27,6 +27,7 @@
 
     <% if (success) { %><div class="status-banner status-success" role="status"><i class="material-icons">check_circle</i><span><%= success %></span></div><% } %>
     <% if (error) { %><div class="status-banner status-error" role="alert"><i class="material-icons">error</i><span><%= error %></span></div><% } %>
+    <% if (filteredByUser) { %><div class="filter-banner"><span><i class="material-icons">filter_alt</i> Mostrando las publicaciones del usuario seleccionado.</span><a href="/posts">Ver todas</a></div><% } %>
 
     <% if (posts.length === 0) { %>
       <section class="empty-state"><div class="empty-icon"><i class="material-icons">collections_bookmark</i></div><p class="eyebrow"><span></span> Aún no hay contenido</p><h2>Crea la primera publicación</h2><p>Agrega un título, una imagen y etiquetas para comenzar a organizar tus historias.</p><a href="/posts/new" class="btn btn-primary waves-effect waves-light">Empezar ahora</a></section>

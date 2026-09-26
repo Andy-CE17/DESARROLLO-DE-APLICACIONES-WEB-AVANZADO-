@@ -14,7 +14,13 @@ class PostRepository {
   }
 
   async findByUser(userId) {
-    return await Post.find({ user: userId }).populate("user");
+    return await Post.find({ user: userId })
+      .populate("user")
+      .sort({ createdAt: -1, _id: -1 });
+  }
+
+  async countByUser(userId) {
+    return await Post.countDocuments({ user: userId });
   }
 
   async update(postId, postData) {

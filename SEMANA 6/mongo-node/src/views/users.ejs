@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Administra los usuarios y autores registrados.">
+  <title>Áurea | Usuarios</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="site-body">
+  <header>
+    <nav class="site-nav" aria-label="Navegación principal"><div class="nav-wrapper container-wide">
+      <a href="/" class="brand-mark"><span class="brand-symbol">A</span><span>ÁUREA</span></a>
+      <ul class="right hide-on-med-and-down nav-links"><li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a class="active" href="/users">Usuarios</a></li><li><a class="nav-create" href="/posts/new">Crear publicación</a></li></ul>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+    </div></nav>
+    <ul class="sidenav dark-sidenav" id="mobile-nav"><li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a href="/users">Usuarios</a></li><li><a href="/posts/new">Crear publicación</a></li></ul>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-heading">
+      <div><p class="eyebrow"><span></span> Comunidad registrada</p><h1>Usuarios</h1><p>Consulta los autores, sus datos principales y las publicaciones que han creado.</p></div>
+      <div class="heading-actions"><span class="record-count"><strong><%= users.length %></strong> <%= users.length === 1 ? "usuario" : "usuarios" %></span><a href="/users/new" class="btn btn-primary waves-effect waves-light"><i class="material-icons left">person_add</i> Nuevo usuario</a></div>
+    </section>
+
+    <% if (success) { %><div class="status-banner status-success" role="status"><i class="material-icons">check_circle</i><span><%= success %></span></div><% } %>
+    <% if (error) { %><div class="status-banner status-error" role="alert"><i class="material-icons">error</i><span><%= error %></span></div><% } %>
+
+    <% if (users.length === 0) { %>
+      <section class="empty-state"><div class="empty-icon"><i class="material-icons">group</i></div><p class="eyebrow"><span></span> Comunidad vacía</p><h2>Registra el primer usuario</h2><p>Los usuarios podrán aparecer como autores de las publicaciones.</p><a href="/users/new" class="btn btn-primary waves-effect waves-light">Registrar usuario</a></section>
+    <% } else { %>
+      <section class="user-grid" aria-label="Listado de usuarios">
+        <% users.forEach(({ user, postCount }, index) => { %>
+          <% const initials = `${user.name?.charAt(0) || ""}${user.lastName?.charAt(0) || ""}`.toUpperCase(); %>
+          <% const createdDate = user.createdAt ? new Date(user.createdAt).toLocaleDateString("es-PE", { day: "2-digit", month: "short", year: "numeric" }) : "Registro anterior"; %>
+          <article class="user-card" style="--delay: <%= index * 60 %>ms">
+            <div class="user-card-top"><div class="user-avatar"><%= initials || "U" %></div><div class="user-identity"><span>Miembro desde <%= createdDate %></span><h2><%= user.name %> <%= user.lastName %></h2><a href="mailto:<%= user.email %>"><%= user.email %></a></div></div>
+            <div class="user-details"><div><i class="material-icons">cake</i><span><strong><%= user.age || "—" %></strong> años</span></div><div><i class="material-icons">phone</i><span><%= user.phoneNumber || "Sin teléfono" %></span></div></div>
+            <div class="user-stat"><strong><%= postCount %></strong><span><%= postCount === 1 ? "publicación creada" : "publicaciones creadas" %></span></div>
+            <div class="user-actions"><a href="/posts?userId=<%= user._id %>" class="action-link view-link"><i class="material-icons">article</i><span>Ver publicaciones</span></a><a href="/users/<%= user._id %>/edit" class="action-link edit-link"><i class="material-icons">edit</i><span>Editar</span></a><form action="/users/<%= user._id %>/delete" method="POST" data-delete-form data-delete-message="¿Deseas eliminar este usuario?"><button type="submit" class="action-link delete-link" <%= postCount > 0 ? "disabled title=\"Tiene publicaciones asociadas\"" : "" %>><i class="material-icons">delete_outline</i><span>Eliminar</span></button></form></div>
+          </article>
+        <% }) %>
+      </section>
+    <% } %>
+  </main>
+
+  <footer class="site-footer"><div class="container-wide"><span>ÁUREA</span><p>Personas e ideas reunidas en un solo espacio.</p></div></footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script><script src="/js/app.js"></script>
+</body>
+</html>

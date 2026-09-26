@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 
 import homeRoutes from "./src/routes/home.routes.js";
 import postRoutes from "./src/routes/post.routes.js";
+import userRoutes from "./src/routes/user.routes.js";
 
 dotenv.config(); // Carga las variables desde .env
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Rutas
 app.use("/", homeRoutes);
 app.use("/posts", postRoutes);
+app.use("/users", userRoutes);
 
 app.use((req, res) => {
   res.status(404).render("error", {

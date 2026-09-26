@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll("[data-delete-form]").forEach((form) => {
     form.addEventListener("submit", (event) => {
-      const confirmed = window.confirm("¿Deseas eliminar esta publicación? Esta acción no se puede deshacer.");
+      const message = form.dataset.deleteMessage
+        || "¿Deseas eliminar esta publicación? Esta acción no se puede deshacer.";
+      const confirmed = window.confirm(message);
       if (!confirmed) event.preventDefault();
     });
   });

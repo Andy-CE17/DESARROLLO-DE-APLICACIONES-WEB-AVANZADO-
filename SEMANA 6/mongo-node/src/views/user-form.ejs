@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Registra o actualiza un usuario.">
+  <title>Áurea | <%= mode === "create" ? "Nuevo usuario" : "Editar usuario" %></title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="site-body">
+  <% const isEdit = mode === "edit"; %>
+  <header>
+    <nav class="site-nav" aria-label="Navegación principal"><div class="nav-wrapper container-wide">
+      <a href="/" class="brand-mark"><span class="brand-symbol">A</span><span>ÁUREA</span></a>
+      <ul class="right hide-on-med-and-down nav-links"><li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a class="active" href="/users">Usuarios</a></li><li><a class="nav-create" href="/posts/new">Crear publicación</a></li></ul>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+    </div></nav>
+    <ul class="sidenav dark-sidenav" id="mobile-nav"><li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a href="/users">Usuarios</a></li><li><a href="/posts/new">Crear publicación</a></li></ul>
+  </header>
+
+  <main class="form-page user-form-page">
+    <section class="form-heading"><a href="/users" class="back-link"><i class="material-icons">arrow_back</i> Volver a usuarios</a><p class="eyebrow"><span></span> <%= isEdit ? "Actualizar perfil" : "Nuevo integrante" %></p><h1><%= isEdit ? "Editar usuario" : "Registrar usuario" %></h1><p><%= isEdit ? "Actualiza la información del autor seleccionado." : "Completa los datos para incorporar un nuevo autor a la comunidad." %></p></section>
+
+    <% if (error) { %><div class="status-banner status-error" role="alert"><i class="material-icons">error</i><span><%= error %></span></div><% } %>
+
+    <div class="user-form-layout">
+      <section class="form-panel">
+        <form action="<%= isEdit ? `/users/${user._id}/update` : "/users" %>" method="POST">
+          <div class="form-section-label"><span>01</span><div><strong>Información personal</strong><small>Datos visibles del autor</small></div></div>
+          <div class="field-pair">
+            <div class="input-field custom-field"><i class="material-icons prefix">person</i><input id="name" name="name" type="text" value="<%= user.name || "" %>" minlength="2" required><label for="name">Nombres</label></div>
+            <div class="input-field custom-field"><i class="material-icons prefix">badge</i><input id="lastName" name="lastName" type="text" value="<%= user.lastName || "" %>" minlength="2" required><label for="lastName">Apellidos</label></div>
+          </div>
+          <div class="field-pair">
+            <div class="input-field custom-field"><i class="material-icons prefix">email</i><input id="email" name="email" type="email" value="<%= user.email || "" %>" class="validate" required><label for="email">Correo electrónico</label></div>
+            <div class="input-field custom-field"><i class="material-icons prefix">cake</i><input id="age" name="age" type="number" value="<%= user.age || "" %>" min="18" max="120" required><label for="age">Edad</label></div>
+          </div>
+
+          <div class="form-section-label"><span>02</span><div><strong>Contacto y acceso</strong><small>Información complementaria</small></div></div>
+          <div class="input-field custom-field"><i class="material-icons prefix">phone</i><input id="phoneNumber" name="phoneNumber" type="tel" value="<%= user.phoneNumber || "" %>" pattern="[0-9+() -]{7,20}"><label for="phoneNumber">Número telefónico</label></div>
+          <div class="input-field custom-field"><i class="material-icons prefix">lock</i><input id="password" name="password" type="password" minlength="8" <%= isEdit ? "" : "required" %>><label for="password"><%= isEdit ? "Nueva contraseña (opcional)" : "Contraseña" %></label><span class="helper-text"><%= isEdit ? "Déjala vacía para conservar la contraseña actual." : "Utiliza al menos 8 caracteres." %></span></div>
+
+          <div class="form-actions"><a href="/users" class="btn btn-secondary waves-effect">Cancelar</a><button type="submit" class="btn btn-primary waves-effect waves-light"><i class="material-icons left"><%= isEdit ? "save" : "person_add" %></i><%= isEdit ? "Guardar cambios" : "Registrar usuario" %></button></div>
+        </form>
+      </section>
+      <aside class="user-form-aside"><span class="aside-number">Á</span><p class="eyebrow">Perfil de autor</p><h2>Una identidad para cada historia.</h2><p>Cada usuario puede vincularse con sus publicaciones y mantener sus datos organizados.</p><ul><li><i class="material-icons">check</i> Datos centralizados</li><li><i class="material-icons">check</i> Publicaciones relacionadas</li><li><i class="material-icons">check</i> Edición directa</li></ul></aside>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script><script src="/js/app.js"></script>
+</body>
+</html>

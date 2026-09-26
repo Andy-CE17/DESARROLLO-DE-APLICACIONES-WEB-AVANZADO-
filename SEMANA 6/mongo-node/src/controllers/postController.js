@@ -1,5 +1,12 @@
 import postService from "../services/postService.js";
 
+const withUploadedImage = (body, file) => ({
+  ...body,
+  imageUrl: file
+    ? `/uploads/${file.filename}`
+    : body.imageUrl || body.existingImageUrl || "",
+});
+
 class PostController {
   async getAll(req, res) {
     try {
@@ -40,7 +47,8 @@ class PostController {
 
   async create(req, res) {
     try {
-      await postService.createPost(req.body.userId, req.body);
+      const postData = withUploadedImage(req.body, req.file);
+      await postService.createPost(postData.userId, postData);
       res.redirect("/posts?success=Publicación creada correctamente");
     } catch (error) {
       const users = await postService.getAuthors();
@@ -78,7 +86,8 @@ class PostController {
 
   async update(req, res) {
     try {
-      await postService.updatePost(req.params.id, req.body.userId, req.body);
+      const postData = withUploadedImage(req.body, req.file);
+      await postService.updatePost(req.params.id, postData.userId, postData);
       res.redirect("/posts?success=Publicación actualizada correctamente");
     } catch (error) {
       const users = await postService.getAuthors();

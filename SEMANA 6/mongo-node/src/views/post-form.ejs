@@ -29,7 +29,8 @@
 
     <div class="form-layout">
       <section class="form-panel">
-        <form action="<%= isEdit ? `/posts/${post._id}/update` : "/posts" %>" method="POST">
+        <form action="<%= isEdit ? `/posts/${post._id}/update` : "/posts" %>" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="existingImageUrl" value="<%= post.imageUrl || "" %>">
           <div class="form-section-label"><span>01</span><div><strong>Contenido principal</strong><small>Información que verán los visitantes</small></div></div>
 
           <div class="input-field custom-field"><i class="material-icons prefix">title</i><input id="title" name="title" type="text" minlength="5" maxlength="30" value="<%= post.title || "" %>" class="validate" data-length="30" required><label for="title">Título de la publicación</label><span class="helper-text">Entre 5 y 30 caracteres.</span></div>
@@ -37,6 +38,13 @@
           <div class="input-field custom-field"><i class="material-icons prefix">notes</i><textarea id="content" name="content" class="materialize-textarea validate" minlength="10" data-length="500" required><%= post.content || "" %></textarea><label for="content">Contenido</label><span class="helper-text">Describe la idea con al menos 10 caracteres.</span></div>
 
           <div class="form-section-label"><span>02</span><div><strong>Presentación</strong><small>Imagen, etiquetas y autor</small></div></div>
+
+          <div class="file-field input-field image-file-field">
+            <div class="btn upload-button waves-effect"><i class="material-icons left">upload</i><span>Seleccionar imagen</span><input id="imageFile" name="imageFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></div>
+            <div class="file-path-wrapper"><input class="file-path validate" type="text" placeholder="JPG, PNG, WEBP o GIF — máximo 5 MB"></div>
+          </div>
+
+          <div class="image-choice"><span>o utiliza un enlace</span></div>
 
           <div class="input-field custom-field"><i class="material-icons prefix">image</i><input id="imageUrl" name="imageUrl" type="url" value="<%= post.imageUrl || "" %>"><label for="imageUrl">URL de la imagen</label><span class="helper-text">Puedes usar una dirección HTTPS de una imagen.</span></div>
 

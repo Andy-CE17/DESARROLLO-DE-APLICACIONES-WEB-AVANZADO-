@@ -1,70 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media - Posts</title>
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    rel="stylesheet"
-  >
-  <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"
-  >
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explora y administra las publicaciones registradas.">
+  <title>Áurea | Publicaciones</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
 </head>
-<body class="grey lighten-4">
-  <nav>
-    <div class="nav-wrapper teal">
-      <a href="/" class="brand-logo center">Social Media</a>
-    </div>
-  </nav>
+<body class="site-body">
+  <header>
+    <nav class="site-nav" aria-label="Navegación principal"><div class="nav-wrapper container-wide">
+      <a href="/" class="brand-mark"><span class="brand-symbol">A</span><span>ÁUREA</span></a>
+      <ul class="right hide-on-med-and-down nav-links"><li><a href="/">Inicio</a></li><li><a class="active" href="/posts">Publicaciones</a></li><li><a class="nav-create" href="/posts/new">Crear publicación</a></li></ul>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+    </div></nav>
+    <ul class="sidenav dark-sidenav" id="mobile-nav"><li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a href="/posts/new">Crear publicación</a></li></ul>
+  </header>
 
-  <div class="container">
-    <h4 class="center-align">Bienvenido a Social Media</h4>
+  <main class="page-shell">
+    <section class="page-heading">
+      <div><p class="eyebrow"><span></span> Archivo de contenido</p><h1>Publicaciones</h1><p>Consulta, edita y organiza todo el contenido registrado.</p></div>
+      <div class="heading-actions"><span class="record-count"><strong><%= posts.length %></strong> <%= posts.length === 1 ? "registro" : "registros" %></span><a href="/posts/new" class="btn btn-primary waves-effect waves-light"><i class="material-icons left">add</i> Crear publicación</a></div>
+    </section>
 
-    <div class="row">
-      <div class="col s12 m6 l4">
-        <div class="card">
-          <div class="card-image">
-            <img
-              src="https://media.istockphoto.com/id/627795510/photo/example.jpg?s=612x612&w=0&k=20&c=lpUf5rjPVd6Kl_M6heqC8sUncR4FLmtsRzeYdTr5X_I="
-              alt="Imagen del post"
-            >
-          </div>
+    <% if (success) { %><div class="status-banner status-success" role="status"><i class="material-icons">check_circle</i><span><%= success %></span></div><% } %>
+    <% if (error) { %><div class="status-banner status-error" role="alert"><i class="material-icons">error</i><span><%= error %></span></div><% } %>
 
-          <div class="card-content">
-            <span class="card-title">Título del Post</span>
-            <p>
-              Este es un ejemplo de contenido del post. Aquí puedes escribir la
-              descripción o texto relacionado.
-            </p>
-            <p>
-              <strong>Hashtags:</strong>
-              <span class="chip">#ejemplo</span>
-              <span class="chip">#social</span>
-              <span class="chip">#media</span>
-              <span class="chip">#práctica</span>
-              <span class="chip">#nodejs</span>
-            </p>
-          </div>
-
-          <div class="card-action">
-            <div class="right">
-              <a href="#!" class="btn-flat" aria-label="Editar publicación">
-                <i class="material-icons teal-text">edit</i>
-              </a>
-              <a href="#!" class="btn-flat" aria-label="Eliminar publicación">
-                <i class="material-icons red-text">delete</i>
-              </a>
+    <% if (posts.length === 0) { %>
+      <section class="empty-state"><div class="empty-icon"><i class="material-icons">collections_bookmark</i></div><p class="eyebrow"><span></span> Aún no hay contenido</p><h2>Crea la primera publicación</h2><p>Agrega un título, una imagen y etiquetas para comenzar a organizar tus historias.</p><a href="/posts/new" class="btn btn-primary waves-effect waves-light">Empezar ahora</a></section>
+    <% } else { %>
+      <section class="post-grid" aria-label="Listado de publicaciones">
+        <% posts.forEach((post, index) => { %>
+          <% const authorName = post.user ? `${post.user.name || ""} ${post.user.lastName || ""}`.trim() : "Autor no disponible"; %>
+          <% const createdDate = post.createdAt ? new Date(post.createdAt).toLocaleDateString("es-PE", { day: "2-digit", month: "short", year: "numeric" }) : "Sin fecha"; %>
+          <article class="post-card" style="--delay: <%= index * 60 %>ms">
+            <div class="post-cover"><div class="cover-fallback"><span><%= post.title.charAt(0).toUpperCase() %></span></div><% if (post.imageUrl) { %><img src="<%= post.imageUrl %>" alt="Imagen de <%= post.title %>" loading="lazy" onerror="this.remove()"><% } %><span class="post-number"><%= String(index + 1).padStart(2, "0") %></span></div>
+            <div class="post-body"><div class="post-meta"><span><i class="material-icons">person</i><%= authorName %></span><span><%= createdDate %></span></div><h2><%= post.title %></h2><p class="post-copy"><%= post.content %></p>
+              <% if (post.hashtags && post.hashtags.length > 0) { %><div class="tag-list"><% post.hashtags.forEach((hashtag) => { %><span>#<%= hashtag %></span><% }) %></div><% } %>
             </div>
-            <span><strong>Autor:</strong> Juan Pérez</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            <div class="post-actions"><a href="/posts/<%= post._id %>/edit" class="action-link edit-link"><i class="material-icons">edit</i><span>Editar</span></a><form action="/posts/<%= post._id %>/delete" method="POST" data-delete-form><button type="submit" class="action-link delete-link"><i class="material-icons">delete_outline</i><span>Eliminar</span></button></form></div>
+          </article>
+        <% }) %>
+      </section>
+    <% } %>
+  </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <footer class="site-footer"><div class="container-wide"><span>ÁUREA</span><p>Contenido organizado para compartir mejores ideas.</p></div></footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script><script src="/js/app.js"></script>
 </body>
 </html>

@@ -3,29 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media - Home</title>
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    rel="stylesheet"
-  >
-  <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"
-  >
+  <meta name="description" content="Administra publicaciones y autores desde un solo espacio.">
+  <title>Áurea | Inicio</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
 </head>
-<body class="container center-align" style="margin-top: 80px;">
-  <h2 class="blue-text text-darken-2">Bienvenido a Social Media 🚀</h2>
-  <p class="flow-text">Conéctate, comparte y explora publicaciones</p>
+<body class="site-body">
+  <header>
+    <nav class="site-nav" aria-label="Navegación principal">
+      <div class="nav-wrapper container-wide">
+        <a href="/" class="brand-mark" aria-label="Áurea inicio"><span class="brand-symbol">A</span><span>ÁUREA</span></a>
+        <ul class="right hide-on-med-and-down nav-links">
+          <li><a class="active" href="/">Inicio</a></li>
+          <li><a href="/posts">Publicaciones</a></li>
+          <li><a class="nav-create" href="/posts/new">Crear publicación</a></li>
+        </ul>
+        <a href="#" data-target="mobile-nav" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+      </div>
+    </nav>
+    <ul class="sidenav dark-sidenav" id="mobile-nav">
+      <li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a href="/posts/new">Crear publicación</a></li>
+    </ul>
+  </header>
 
-  <div class="row" style="margin-top: 50px;">
-    <div class="col s12 m12">
-      <a href="/posts/" class="btn-large waves-effect waves-light blue darken-2">
-        <i class="material-icons left">image</i>
-        Ver posts
-      </a>
-    </div>
-  </div>
+  <main class="hero-shell">
+    <section class="hero-copy" aria-labelledby="hero-title">
+      <p class="eyebrow"><span></span> Historias y proyectos en un solo lugar</p>
+      <h1 id="hero-title">Publica tus ideas.<br><em>Adminístralas con claridad.</em></h1>
+      <p class="hero-description">Crea publicaciones con imágenes, organiza sus etiquetas y mantén cada contenido actualizado desde una experiencia simple y directa.</p>
+      <div class="hero-actions">
+        <a href="/posts" class="btn btn-primary waves-effect waves-light">Explorar publicaciones <i class="material-icons right">arrow_forward</i></a>
+        <a href="/posts/new" class="btn btn-secondary waves-effect"><i class="material-icons left">add</i> Nueva publicación</a>
+      </div>
+      <div class="capability-row" aria-label="Funciones disponibles">
+        <div><strong>Publica</strong><span>Contenido e imágenes</span></div>
+        <div><strong>Edita</strong><span>Información existente</span></div>
+        <div><strong>Organiza</strong><span>Autores y etiquetas</span></div>
+      </div>
+    </section>
 
+    <section class="hero-visual" aria-label="Vista previa de publicaciones">
+      <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+      <article class="feature-card feature-card-main">
+        <div class="feature-image"><div class="feature-badge"><i class="material-icons">auto_awesome</i> Destacado</div><div class="feature-monogram">Á</div></div>
+        <div class="feature-content"><span class="feature-kicker">Colección visual</span><h2>Ideas que encuentran su espacio</h2><div class="feature-meta"><span><i class="material-icons">person</i> Comunidad Áurea</span><span><i class="material-icons">schedule</i> Hoy</span></div></div>
+      </article>
+      <div class="floating-note note-top"><i class="material-icons">edit</i><span><strong>Edición directa</strong>Actualiza cada publicación</span></div>
+      <div class="floating-note note-bottom"><i class="material-icons">sell</i><span><strong>Etiquetas claras</strong>Encuentra contenido relacionado</span></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="container-wide"><span>ÁUREA</span><p>Contenido organizado para compartir mejores ideas.</p></div></footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="/js/app.js"></script>
 </body>
 </html>

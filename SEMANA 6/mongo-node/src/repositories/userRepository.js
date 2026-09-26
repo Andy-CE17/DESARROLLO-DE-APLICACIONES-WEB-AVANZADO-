@@ -6,7 +6,7 @@ class UserRepository {
   }
 
   async findAll() {
-    return await User.find();
+    return await User.find().sort({ name: 1, lastName: 1 });
   }
 
   async findById(id) {

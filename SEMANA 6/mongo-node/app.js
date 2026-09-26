@@ -25,6 +25,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", homeRoutes);
 app.use("/posts", postRoutes);
 
+app.use((req, res) => {
+  res.status(404).render("error", {
+    status: 404,
+    title: "Página no encontrada",
+    message: "La dirección solicitada no existe en este sitio.",
+  });
+});
+
 await connectDB(); // Conexión a la base de datos
 
 const PORT = process.env.PORT || 3000;

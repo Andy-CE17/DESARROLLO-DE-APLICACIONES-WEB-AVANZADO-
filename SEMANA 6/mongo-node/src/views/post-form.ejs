@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Crea o actualiza una publicación.">
+  <title>Áurea | <%= mode === "create" ? "Nueva publicación" : "Editar publicación" %></title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="site-body">
+  <% const isEdit = mode === "edit"; %>
+  <% const selectedUserId = post.user && post.user._id ? post.user._id.toString() : (post.user ? post.user.toString() : ""); %>
+  <% const hashtagsValue = Array.isArray(post.hashtags) ? post.hashtags.join(", ") : (post.hashtags || ""); %>
+  <header>
+    <nav class="site-nav" aria-label="Navegación principal"><div class="nav-wrapper container-wide">
+      <a href="/" class="brand-mark"><span class="brand-symbol">A</span><span>ÁUREA</span></a>
+      <ul class="right hide-on-med-and-down nav-links"><li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a class="nav-create active" href="/posts/new">Crear publicación</a></li></ul>
+      <a href="#" data-target="mobile-nav" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+    </div></nav>
+    <ul class="sidenav dark-sidenav" id="mobile-nav"><li><a href="/">Inicio</a></li><li><a href="/posts">Publicaciones</a></li><li><a href="/posts/new">Crear publicación</a></li></ul>
+  </header>
+
+  <main class="form-page">
+    <section class="form-heading"><a href="/posts" class="back-link"><i class="material-icons">arrow_back</i> Volver a publicaciones</a><p class="eyebrow"><span></span> <%= isEdit ? "Actualizar contenido" : "Nuevo contenido" %></p><h1><%= isEdit ? "Editar publicación" : "Crear publicación" %></h1><p><%= isEdit ? "Modifica la información y guarda los cambios cuando todo esté listo." : "Completa los datos para agregar una nueva historia al archivo." %></p></section>
+
+    <% if (error) { %><div class="status-banner status-error" role="alert"><i class="material-icons">error</i><span><%= error %></span></div><% } %>
+
+    <div class="form-layout">
+      <section class="form-panel">
+        <form action="<%= isEdit ? `/posts/${post._id}/update` : "/posts" %>" method="POST">
+          <div class="form-section-label"><span>01</span><div><strong>Contenido principal</strong><small>Información que verán los visitantes</small></div></div>
+
+          <div class="input-field custom-field"><i class="material-icons prefix">title</i><input id="title" name="title" type="text" minlength="5" maxlength="30" value="<%= post.title || "" %>" class="validate" data-length="30" required><label for="title">Título de la publicación</label><span class="helper-text">Entre 5 y 30 caracteres.</span></div>
+
+          <div class="input-field custom-field"><i class="material-icons prefix">notes</i><textarea id="content" name="content" class="materialize-textarea validate" minlength="10" data-length="500" required><%= post.content || "" %></textarea><label for="content">Contenido</label><span class="helper-text">Describe la idea con al menos 10 caracteres.</span></div>
+
+          <div class="form-section-label"><span>02</span><div><strong>Presentación</strong><small>Imagen, etiquetas y autor</small></div></div>
+
+          <div class="input-field custom-field"><i class="material-icons prefix">image</i><input id="imageUrl" name="imageUrl" type="url" value="<%= post.imageUrl || "" %>"><label for="imageUrl">URL de la imagen</label><span class="helper-text">Puedes usar una dirección HTTPS de una imagen.</span></div>
+
+          <div class="input-field custom-field"><i class="material-icons prefix">tag</i><input id="hashtags" name="hashtags" type="text" value="<%= hashtagsValue %>"><label for="hashtags">Hashtags</label><span class="helper-text">Sepáralos con comas. Ejemplo: diseño, fotografía, ideas.</span></div>
+
+          <div class="input-field custom-field select-field"><i class="material-icons prefix">person</i><select id="userId" name="userId" required><option value="" disabled <%= selectedUserId ? "" : "selected" %>>Selecciona un autor</option><% users.forEach((user) => { %><option value="<%= user._id %>" <%= selectedUserId === user._id.toString() ? "selected" : "" %>><%= user.name %> <%= user.lastName %></option><% }) %></select><label for="userId">Autor de la publicación</label></div>
+
+          <% if (users.length === 0) { %><p class="form-warning"><i class="material-icons">warning</i>No hay usuarios registrados. Agrega un usuario en MongoDB antes de crear publicaciones.</p><% } %>
+
+          <div class="form-actions"><a href="/posts" class="btn btn-secondary waves-effect">Cancelar</a><button type="submit" class="btn btn-primary waves-effect waves-light" <%= users.length === 0 ? "disabled" : "" %>><i class="material-icons left"><%= isEdit ? "save" : "publish" %></i><%= isEdit ? "Guardar cambios" : "Publicar ahora" %></button></div>
+        </form>
+      </section>
+
+      <aside class="preview-panel"><div class="preview-label"><span>Vista previa</span><small>Se actualiza con la imagen</small></div><div class="preview-card"><div class="preview-image" id="previewImage"><div class="preview-placeholder"><i class="material-icons">add_photo_alternate</i><span>Agrega una imagen</span></div><img id="previewImg" src="<%= post.imageUrl || "" %>" alt="Vista previa" <%= post.imageUrl ? "" : "hidden" %>></div><div class="preview-content"><span>ÁUREA / PUBLICACIÓN</span><h2><%= post.title || "Tu título aparecerá aquí" %></h2><p><%= post.content || "Escribe el contenido para visualizar cómo se presentará tu publicación." %></p></div></div><p class="preview-tip"><i class="material-icons">lightbulb</i>Usa imágenes horizontales para obtener un mejor encuadre.</p></aside>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script><script src="/js/app.js"></script>
+</body>
+</html>

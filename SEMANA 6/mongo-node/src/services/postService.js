@@ -64,7 +64,6 @@ class PostService {
     const updatedPost = await postRepository.update(postId, {
       ...this.preparePostData(postData),
       user: user._id,
-      updatedAt: new Date(),
     });
 
     if (!updatedPost) {

@@ -22,7 +22,11 @@ const postSchema = new mongoose.Schema({
   hashtags: { type: [String], default: [] },
   imageUrl: { type: String, trim: true, default: "" },
   createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
+  updatedAt: Date,
+});
+
+postSchema.pre("findOneAndUpdate", function () {
+  this.set({ updatedAt: new Date() });
 });
 
 export default mongoose.model("Post", postSchema);
